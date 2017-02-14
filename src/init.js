@@ -42,7 +42,7 @@ $(document).ready(function() {
 
     window.dancers.forEach(function(dancer, i) {
       // align
-      if (dancer.constructor === CatDancer) {
+      if (dancer.constructor !== Dancer) {
         dancer.pause = true;
         //dancer.step();
       }
