@@ -17,8 +17,11 @@ body, a:link, a:visited, a:active{
   float:right;
 }
 .topbar{
+  display: flex;
+  justify-content: space-between;
   height:32px;
   background-color: #555;
+  padding: 0 5%;
 }
 .title{
   background-color: #777;
