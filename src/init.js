@@ -38,7 +38,7 @@ $(document).ready(function() {
     // turn off moving functions part of step
     // iterate over global dancer
     var margin = 20;
-    var spacing = ($('body').height() - 2 * margin) / (window.dancers.length - 1);
+    var spacing = ($('body').height()) / (window.dancers.length);
 
     window.dancers.forEach(function(dancer, i) {
       // align
