@@ -27,7 +27,28 @@ $(document).ready(function() {
       $("body").width() * Math.random(),
       Math.random() * 1000
     );
+
+    window.dancers.push(dancer);
+
     $('body').append(dancer.$node);
+
   });
+
+  $('.alignDancerButton').on('click', function(event) {
+    // turn off moving functions part of step
+    // iterate over global dancer
+    var margin = 20;
+    var spacing = ($('body').height() - 2 * margin) / (window.dancers.length - 1);
+
+    window.dancers.forEach(function(dancer, i) {
+      // align
+      if (dancer.constructor === CatDancer) {
+        dancer.pause = true;
+        //dancer.step();
+      }
+      dancer.setPosition(margin + spacing * i, margin);
+    });
+  });
+
 });
 
