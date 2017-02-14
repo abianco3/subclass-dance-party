@@ -32,3 +32,24 @@ describe('blinkyDancer', function() {
     });
   });
 });
+
+describe('catDancer', function() {
+
+  var catDancer, clock;
+  var timeBetweenSteps = 100;
+
+  beforeEach(function() {
+    clock = sinon.useFakeTimers();
+    catDancer = new CatDancer(10, 20, timeBetweenSteps);
+  });
+
+  it('should have a jQuery $node object', function() {
+    expect(catDancer.$node).to.be.an.instanceof(jQuery);
+  });
+
+  it('should have a step function that makes it move', function() {
+    var start = catDancer.$node.top;
+    catDancer.step();
+    expect(catDancer.$node.css('top')).to.not.equal(start);
+  });
+});
