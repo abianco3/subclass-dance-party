@@ -52,4 +52,11 @@ describe('catDancer', function() {
     catDancer.step();
     expect(catDancer.$node.css('top')).to.not.equal(start);
   });
+
+  it('should not move outside the window', function() {
+    catDancer.top = window.innerHeight + 100;
+    catDancer.step();
+    var isInBounds = catDancer.top <= window.innerHeight - 75;
+    expect(isInBounds).to.equal(true);
+  });
 });
