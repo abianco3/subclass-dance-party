@@ -4,7 +4,7 @@ var CatDancer = function(top, left, timeBetweenSteps) {
   this.explode();
   this.width = $('body').width();
   this.height = $('body').height();
-  this.increment = 5;  // in px
+  this.increment = 15;  // in px
   this.top = top;
   this.left = left;
   this.angle = this._setAngle();
@@ -35,17 +35,53 @@ CatDancer.prototype.step = function() {
     //var bottomBound = window.innerHeight - 75;  // cat size
     //newLeft = newLeft > rightBound ? rightBound : newLeft;
     //newTop = newTop > bottomBound ? bottomBound : newTop;
-
+    var collision = this._collisionDetector();
+    if (collision === 'horizontal collision') {
+      this.angle = -this.angle;
+      newLeft = this._setLeft();
+      newTop = this._setTop();
+    } else if (collision === 'vertical collision') {
+      this.angle = Math.PI - this.angle;
+      newLeft = this._setLeft();
+      newTop = this._setTop();
+    }
     this.setPosition(newTop, newLeft);
     this.top = newTop;
     this.left = newLeft;
   }
  
 };
+
+
+CatDancer.prototype._collisionDetector = function() {
+  
+  // iterate through all the cat objects
+  for (var i = 0; i < window.dancers.length; i++) {
+    // vertical collision factor
+    var cat = window.dancers[i];
+    if (cat !== this) {
+      var VC = Math.abs(cat.top - this.top);
+      // HC factor
+      var HC = Math.abs(cat.left - this.left);
+      if (VC < 75 && HC < 75) {
+        // debugger;
+        if (VC < HC) {
+          return 'vertical collision';
+        } else {
+          return 'horizontal collision';
+        }
+      } else {
+      }
+    }
+  }
+  return 'no collision';
+};
+
+
 CatDancer.prototype._setLeft = function() {
   var newLeft = this.left + this.increment * Math.cos(this.angle);
   if (newLeft < 0 || newLeft > window.innerWidth - 75) {
-    this.angle = this._setAngle();
+    this.angle = Math.PI - this.angle;
     newLeft = this.left + this.increment * Math.cos(this.angle);
   }
   return newLeft;
@@ -54,8 +90,8 @@ CatDancer.prototype._setLeft = function() {
 CatDancer.prototype._setTop = function() {
   var newTop = this.top + this.increment * Math.sin(this.angle);
   if (newTop < 0 || newTop > window.innerHeight - 75) {
-    this.angle = this._setAngle();
-    newTop = this.left + this.increment * Math.sin(this.angle);
+    this.angle = -this.angle;
+    newTop = this.top + this.increment * Math.sin(this.angle);
   }
   return newTop;
 };
